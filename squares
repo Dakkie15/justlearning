@@ -1,0 +1,19 @@
+# drawing squares
+
+import turtle
+
+t = turtle.Pen()
+
+def mijn_vierkant(grootte, gevuld):
+    if gevuld == True:
+        t.begin_fill()
+    for x in range(1, 5):
+        t.forward(grootte)
+        t.left(90)
+    if gevuld == True:
+        t.end_fill()
+
+mijn_vierkant(50, False)
+
+
+turtle.mainloop()

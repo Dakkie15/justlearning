@@ -4,7 +4,7 @@ t = turtle.Pen()
 
 # chassis
 t.reset()
-t.color(1,0,0)
+t.color(1, 0 ,0)
 t.begin_fill()
 t.forward(100)
 t.left(90)
@@ -55,8 +55,7 @@ def mijncirkel(rood, groen, blauw):
     t.circle(50)
     t.end_fill()
 
-mijncirkel(0, 1, 0)
-
+mijncirkel(0.15, 0.45, 0.5)
 
 
 
