@@ -4,6 +4,7 @@ import turtle
 
 t = turtle.Pen()
 
+# Square
 def mijn_vierkant(grootte, gevuld):
     if gevuld == True:
         t.begin_fill()
@@ -13,7 +14,33 @@ def mijn_vierkant(grootte, gevuld):
     if gevuld == True:
         t.end_fill()
 
+
+# distance from object
+
+# start
+def mijnster(grootte, gevuld):
+    if gevuld == True:
+        t.begin_fill()
+    for x in range(1, 19):
+        t.forward(grootte)
+        if x % 2 == 0:
+            t.left(175)
+        else:
+            t.left(225)
+    if gevuld == True:
+        t.end_fill()
+
+t.reset()
+# calling square or star
 mijn_vierkant(50, False)
 
+t.up()
+t.forward(200)
+t.down()
+
+t.color(0.4, 0.6, 0)
+mijnster(70, True)
+t.color(0, 0, 0)
+mijnster(70, False)
 
 turtle.mainloop()

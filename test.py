@@ -55,6 +55,7 @@ def mijncirkel(rood, groen, blauw):
     t.circle(50)
     t.end_fill()
 
+#1 = 100
 mijncirkel(0.15, 0.45, 0.5)
 
 
