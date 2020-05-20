@@ -1,10 +1,27 @@
 from tkinter import *
+from tkinter import colorchooser
+import random
 
+# random squares
 
 tk = Tk()
-canvas = Canvas(tk, width=500, height=500)
+tk.update()
+colorchooser.askcolor()
+canvas = Canvas(tk, width=400, height=400)
 canvas.pack()
-canvas.create_rectangle(10, 10, 450, 80)
+
+def random_squares (width, height, fill_color):
+    x1 = random.randrange(width)
+    y1 = random.randrange(height)
+    x2 = x1 + random.randrange(width)
+    y2 = y1 + random.randrange(height)
+    canvas.create_rectangle(x1, y1, x2, y2, fill=fill_color)
+
+random_squares(400, 400, 'blue')
+
+
+
+#  End
 
 
 
