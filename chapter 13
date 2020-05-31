@@ -1,0 +1,121 @@
+# game bounce
+
+from tkinter import *
+import time
+import random
+import keyboard
+
+#Dah ball
+class ball:
+    def __init__(self, canvas, badje, color):
+        self.canvas = canvas
+        self.badje = badje
+        self.score = score
+        self.id = canvas.create_oval(10, 10, 25, 25, fill=color)
+        self.canvas.move(self.id, 245, 100)
+        # random start
+        starts = [-3, -2, -1, 1, 2, 3]
+        random.shuffle(starts)
+        self.x = starts[0]
+        self.y = -3
+        # end random start
+        self.canvas_height = self.canvas.winfo_height()
+        self.canvas_width = self.canvas.winfo_width()
+        self.hit_bottom = False
+        #als bal het badjhe raakt
+    def hit_badje(self, pos):
+        badje_pos = self.canvas.coords(self.badje.id)
+        if pos[2] >= badje_pos[0] and pos[0] <=badje_pos[2]:
+            if pos[3] >= badje_pos[1] and pos[3] <= badje_pos[3]:
+                self.x += self.x
+                self.score.hit()
+                return True
+        return False
+        #de bal laten bewegen
+    def draw(self):
+        self.canvas.move(self.id, self.x, self.y)
+        pos = self.canvas.coords(self.id)
+        if pos[1] <= 0:
+            self.y = 3
+        if pos[3] >= self.canvas_height:
+            self.y = -3
+        if pos[3] >= self.canvas_height:
+            self.hit_bottom = True
+        if self.hit_badje(pos) == True:
+            self.y = -3
+        if pos[0] <= 0:
+            self.x = 3
+        if pos[2] >= self.canvas_width:
+            self.x = -3
+        # nu het badje
+class BADJE:
+    def __init__(self, canvas, color):
+        self.canvas = canvas
+        self.id = canvas.create_rectangle(0, 0, 100, 10, fill=color)
+        self.canvas.move(self.id, 200, 300)
+        self.x = 0
+        self.canvas_width = self.canvas.winfo_width()
+        self.started = False
+        self.canvas.bind_all('<KeyPress-Left>', self.turn_left)
+        self.canvas.bind_all('<KeyPress-Right>', self.turn_right)
+        self.canvas.bind_all('<KeyPress-Return>', self.start_game)
+
+    def draw(self):
+        self.canvas.move(self.id, self.x, 0)
+        pos = self.canvas.coords(self.id)
+        if pos[0] <= 0:
+            self.x = 0
+        elif pos[2] >= self.canvas_width:
+            self.x = 0
+
+    def turn_left(self, evt):
+        self.x = -2
+    def turn_right(self, evt):
+        self.x = 2
+    def start_game(self, evt):
+        self.started = True
+
+class SCOREN:
+    def __init__(self, canvas, color):
+        self.score = 0
+        self.canvas = canvas
+        self.id = canvas.create_text(450, 10, text=self.score, fill=color)
+
+    def hit(self):
+        self.score += 1
+        self.canvas.itemconfig(self.id, text=self.score)
+
+#background
+tk = Tk()
+tk.title('Game from the book')
+tk.resizable(0, 0)
+tk.wm_attributes('-topmost', 1)
+canvas = Canvas(tk, width=500, height=400, bd=0, highlightthickness=0)
+canvas.pack()
+tk.update()
+
+score = SCOREN(canvas, 'green')
+#call het badje
+badje = BADJE(canvas, 'blue')
+# call ball
+bal = ball(canvas, badje, 'red')
+
+
+# Looper
+looper = 1
+while looper:
+    if bal.hit_bottom == False and badje.started == True:
+        bal.draw()
+        badje.draw()
+    if bal.hit_bottom == True:
+        canvas.create_text(150, 150, text='GAME OVER')
+        canvas.create_text(300, 150, text='klik Enter')
+        if keyboard.is_pressed('Return'):
+            canvas.create_text(300, 300, text='seteststeestsetsetr')
+            looper = 1
+            continue
+        looper += 1
+    tk.update_idletasks()
+    tk.update()
+    # kind of a refresh rate of the canvas
+    time.sleep(0.01)
